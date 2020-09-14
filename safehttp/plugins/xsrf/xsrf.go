@@ -24,6 +24,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/google/go-safeweb/safehttp"
+	"github.com/google/go-safeweb/safehttp/plugins/htmlinject"
 	"golang.org/x/net/xsrftoken"
 )
 
@@ -135,6 +136,13 @@ func (i *Interceptor) Before(w *safehttp.ResponseWriter, r *safehttp.IncomingReq
 	return safehttp.NotWritten()
 }
 
+// Commit TODO
 func (i *Interceptor) Commit(w *safehttp.ResponseWriter, r *safehttp.IncomingRequest, resp safehttp.Response, cfg interface{}) safehttp.Result {
+	tempResp, ok := resp.(safehttp.TemplateResponse)
+	if !ok {
+		return safehttp.Result{}
+	}
+	temp := (*tempResp.Template)
+	template.Must
 	return safehttp.Result{}
 }
