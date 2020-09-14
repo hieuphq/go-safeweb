@@ -213,6 +213,18 @@ func (it Interceptor) Before(w *safehttp.ResponseWriter, r *safehttp.IncomingReq
 	return safehttp.Result{}
 }
 
+// Commit TODO
 func (it Interceptor) Commit(w *safehttp.ResponseWriter, r *safehttp.IncomingRequest, resp safehttp.Response, cfg interface{}) safehttp.Result {
+	tempResp, ok := resp.(safehttp.TemplateResponse)
+	if !ok {
+		return safehttp.Result{}
+	}
+
+	nonce, err := Nonce(r.Context())
+	if err != nil {
+		return safehttp.Result{}
+	}
+
+	tempResp.FuncMap["CSPNonce"] = func() string { return nonce }
 	return safehttp.Result{}
 }

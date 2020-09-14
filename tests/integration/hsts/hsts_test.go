@@ -62,7 +62,7 @@ func (dispatcher) WriteJSON(rw http.ResponseWriter, resp safehttp.JSONResponse) 
 	return err
 }
 
-func (dispatcher) ExecuteTemplate(rw http.ResponseWriter, t safehttp.Template, data interface{}) error {
+func (dispatcher) ExecuteTemplate(rw http.ResponseWriter, t safehttp.Template, data interface{}, funcMap map[string]interface{}) error {
 	return nil
 }
 
