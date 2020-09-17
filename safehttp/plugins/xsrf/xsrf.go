@@ -143,7 +143,9 @@ func (it *Interceptor) Commit(w *safehttp.ResponseWriter, r *safehttp.IncomingRe
 	}
 	tok, err := Token(r)
 	if err != nil {
-		return w.WriteError(safehttp.StatusForbidden)
+		// The token should have been added in the Before stage and if that is
+		// not the case, a server misconfiguration occured.
+		return w.WriteError(safehttp.StatusInternalServerError)
 	}
 
 	tempResp.FuncMap["XSRFToken"] = func() string { return tok }

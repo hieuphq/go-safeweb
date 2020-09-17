@@ -53,13 +53,6 @@ func TestDefaultDispatcherValidResponse(t *testing.T) {
 			name: "Safe HTML Template Response with Token",
 			write: func(w http.ResponseWriter) error {
 				d := &safehttp.DefaultDispatcher{}
-				t := `<form><input type="hidden" name="xsrf-token" value="{{XSRFToken}}">
-  First name:<br>
-  <input type="text" name="firstname"><br>
-  Last name:<br>
-  <input type="text" name="lastname">
-</form>`
-
 				return d.ExecuteTemplate(w, safetemplate.Must(safetemplate.New("name").Parse("<h1>{{ . }}</h1>")), "This is an actual heading, though.", map[string]interface{}{})
 			},
 			wantBody: "<h1>This is an actual heading, though.</h1>",

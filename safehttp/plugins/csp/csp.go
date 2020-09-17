@@ -222,7 +222,9 @@ func (it Interceptor) Commit(w *safehttp.ResponseWriter, r *safehttp.IncomingReq
 
 	nonce, err := Nonce(r.Context())
 	if err != nil {
-		return safehttp.Result{}
+		// The nonce should have been added in the Before stage and, if that is
+		// not the case, a server misconfiguration occured.
+		return w.WriteError(safehttp.StatusInternalServerError)
 	}
 
 	tempResp.FuncMap["CSPNonce"] = func() string { return nonce }
