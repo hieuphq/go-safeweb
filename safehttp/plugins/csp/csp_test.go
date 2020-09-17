@@ -169,7 +169,7 @@ func TestBefore(t *testing.T) {
 			rr := safehttptest.NewResponseRecorder()
 			req := safehttptest.NewRequest(safehttp.MethodGet, "/", nil)
 
-			tt.interceptor.Before(rr.ResponseWriter, req)
+			tt.interceptor.Before(rr.ResponseWriter, req, nil)
 
 			h := rr.Header()
 			if diff := cmp.Diff(tt.wantEnforcePolicy, h.Values("Content-Security-Policy"), cmpopts.EquateEmpty()); diff != "" {
@@ -322,7 +322,7 @@ func TestBeforeCommit(t *testing.T) {
 
 	i := Default("")
 	tr := safehttp.TemplateResponse{FuncMap: map[string]interface{}{}}
-	i.Before(rec.ResponseWriter, req)
+	i.Before(rec.ResponseWriter, req, nil)
 	i.Commit(rec.ResponseWriter, req, tr, nil)
 
 	nonce, ok := tr.FuncMap["CSPNonce"]
